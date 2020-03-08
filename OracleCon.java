@@ -21,11 +21,14 @@ public class OracleCon extends JFrame {
         final JButton buttonNrMatDESC = new JButton("ORDER BY nr_matricol DESC");
         final JButton buttonPrenumeASC = new JButton("ORDER BY prenume ASC");
         final JButton buttonPrenumeDESC = new JButton("ORDER BY prenume DESC");
+        final JButton buttonSearch = new JButton("Submit");
         final JTable table = new JTable();
         final JScrollPane scrollPane = new JScrollPane(table);
         final DefaultTableModel model = (DefaultTableModel) table.getModel();
         final JLabel label = new JLabel("Filter by an:");
         final JTextField textField = new JTextField();
+        final JLabel labelNume = new JLabel("Search by nume:");
+        final JTextField textFieldNume = new JTextField();
 
         Object[] columnsName = new Object[4];
         columnsName[0] = "Nr matricol";
@@ -55,6 +58,12 @@ public class OracleCon extends JFrame {
         textField.setLocation(700, 350);
         label.setSize(100, 30);
         label.setLocation(620, 350);
+        textFieldNume.setSize(100, 30);
+        textFieldNume.setLocation(700, 400);
+        labelNume.setSize(100, 30);
+        labelNume.setLocation(590, 400);
+        buttonSearch.setSize(80, 30);
+        buttonSearch.setLocation(820, 400);
 
         f.add(scrollPane);
         f.add(button);
@@ -66,6 +75,9 @@ public class OracleCon extends JFrame {
         f.add(buttonPrenumeDESC);
         f.add(textField);
         f.add(label);
+        f.add(textFieldNume);
+        f.add(labelNume);
+        f.add(buttonSearch);
 
         f.setLayout(null);
         f.setVisible(true);
@@ -77,7 +89,7 @@ public class OracleCon extends JFrame {
 
         Statement stmt = con.createStatement();
 
-        //stmt.executeUpdate("CREATE INDEX index_an ON studenti(an)");
+        //stmt.executeUpdate("CREATE INDEX index_nume ON studenti(nume)");
 
         button.addActionListener(new ActionListener() {
 
@@ -89,10 +101,10 @@ public class OracleCon extends JFrame {
                 int nrMatricol;
                 model.setRowCount(0);
                 try {
-                    int filter;
+                    int filterAn;
                     if (textField.getText().equals("1") || textField.getText().equals("2") || textField.getText().equals("3")) {
-                        filter = Integer.parseInt(textField.getText());
-                        rs = stmt.executeQuery("SELECT * FROM studenti WHERE an=" + filter);
+                        filterAn = Integer.parseInt(textField.getText());
+                        rs = stmt.executeQuery("SELECT * FROM studenti WHERE an=" + filterAn);
                     } else
                         rs = stmt.executeQuery("SELECT * FROM studenti");
 
@@ -105,6 +117,7 @@ public class OracleCon extends JFrame {
                 }
                 while (true) {
                     try {
+                        assert rs != null;
                         if (!rs.next()) break;
                     } catch (SQLException ex) {
                         ex.printStackTrace();
@@ -151,6 +164,7 @@ public class OracleCon extends JFrame {
                 }
                 while (true) {
                     try {
+                        assert rs != null;
                         if (!rs.next()) break;
                     } catch (SQLException ex) {
                         ex.printStackTrace();
@@ -196,6 +210,7 @@ public class OracleCon extends JFrame {
                 }
                 while (true) {
                     try {
+                        assert rs != null;
                         if (!rs.next()) break;
                     } catch (SQLException ex) {
                         ex.printStackTrace();
@@ -241,6 +256,7 @@ public class OracleCon extends JFrame {
                 }
                 while (true) {
                     try {
+                        assert rs != null;
                         if (!rs.next()) break;
                     } catch (SQLException ex) {
                         ex.printStackTrace();
@@ -286,6 +302,7 @@ public class OracleCon extends JFrame {
                 }
                 while (true) {
                     try {
+                        assert rs != null;
                         if (!rs.next()) break;
                     } catch (SQLException ex) {
                         ex.printStackTrace();
@@ -332,6 +349,7 @@ public class OracleCon extends JFrame {
                 }
                 while (true) {
                     try {
+                        assert rs != null;
                         if (!rs.next()) break;
                     } catch (SQLException ex) {
                         ex.printStackTrace();
@@ -377,6 +395,7 @@ public class OracleCon extends JFrame {
                 }
                 while (true) {
                     try {
+                        assert rs != null;
                         if (!rs.next()) break;
                     } catch (SQLException ex) {
                         ex.printStackTrace();
@@ -396,7 +415,56 @@ public class OracleCon extends JFrame {
             }
         });
 
-        //stmt.executeUpdate("DROP INDEX index_an");
+        buttonSearch.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                long startTime = System.nanoTime();
+                ResultSet rs = null;
+                String nume, prenume, an;
+                int nrMatricol;
+                model.setRowCount(0);
+                try {
+                    int filter;
+                    String searchedName = textFieldNume.getText();
+                    if (searchedName != null) {
+                        if (textField.getText().equals("1") || textField.getText().equals("2") || textField.getText().equals("3")) {
+                            filter = Integer.parseInt(textField.getText());
+                            rs = stmt.executeQuery("SELECT * FROM studenti WHERE an=" + filter + "AND nume like('" + searchedName + "')");
+                        } else
+                            rs = stmt.executeQuery("SELECT * FROM studenti WHERE nume like('" + searchedName + "')");
+                    }
+
+                    long endTime = System.nanoTime();
+                    long elapsedTime = endTime - startTime;
+                    System.out.println("Elapsed time: " + elapsedTime);
+
+                } catch (SQLException ex) {
+                    ex.printStackTrace();
+                }
+                while (true) {
+                    try {
+                        assert rs != null;
+                        if (!rs.next()) break;
+                    } catch (SQLException ex) {
+                        ex.printStackTrace();
+                    }
+                    try {
+                        nrMatricol = rs.getInt(1);
+                        nume = rs.getString(3);
+                        prenume = rs.getString(4);
+                        an = rs.getString(5);
+                        model.insertRow(table.getRowCount(), new Object[]{nrMatricol, nume, prenume, an});
+
+                    } catch (SQLException ex) {
+                        ex.printStackTrace();
+                    }
+                }
+
+            }
+        });
+
+        //stmt.executeUpdate("DROP INDEX index_nume");
         f.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
     }
