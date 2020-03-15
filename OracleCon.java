@@ -22,6 +22,7 @@ public class OracleCon extends JFrame {
         final JButton buttonPrenumeASC = new JButton("ORDER BY prenume ASC");
         final JButton buttonPrenumeDESC = new JButton("ORDER BY prenume DESC");
         final JButton buttonSearch = new JButton("Submit");
+        final JButton buttonRecommendFriends = new JButton("Submit");
         final JTable table = new JTable();
         final JScrollPane scrollPane = new JScrollPane(table);
         final DefaultTableModel model = (DefaultTableModel) table.getModel();
@@ -29,16 +30,18 @@ public class OracleCon extends JFrame {
         final JTextField textField = new JTextField();
         final JLabel labelNume = new JLabel("Search by nume:");
         final JTextField textFieldNume = new JTextField();
+        final JLabel labelFriends = new JLabel("Recommend friends for:");
+        final JTextField textFieldFriends = new JTextField();
 
-        Object[] columnsName = new Object[4];
+        Object[] columnsName = new Object[5];
         columnsName[0] = "Nr matricol";
         columnsName[1] = "Nume";
         columnsName[2] = "Prenume";
         columnsName[3] = "An";
-
+        columnsName[4] = "Grupa";
         model.setColumnIdentifiers(columnsName);
 
-        scrollPane.setSize(500, 650);
+        scrollPane.setSize(530, 650);
         scrollPane.setLocation(5, 5);
         button.setSize(400, 100);
         button.setLocation(620, 500);
@@ -64,6 +67,12 @@ public class OracleCon extends JFrame {
         labelNume.setLocation(590, 400);
         buttonSearch.setSize(80, 30);
         buttonSearch.setLocation(820, 400);
+        buttonRecommendFriends.setSize(80, 30);
+        buttonRecommendFriends.setLocation(820, 450);
+        textFieldFriends.setSize(100, 30);
+        textFieldFriends.setLocation(700, 450);
+        labelFriends.setSize(200, 30);
+        labelFriends.setLocation(550, 450);
 
         f.add(scrollPane);
         f.add(button);
@@ -78,6 +87,9 @@ public class OracleCon extends JFrame {
         f.add(textFieldNume);
         f.add(labelNume);
         f.add(buttonSearch);
+        f.add(buttonRecommendFriends);
+        f.add(labelFriends);
+        f.add(textFieldFriends);
 
         f.setLayout(null);
         f.setVisible(true);
@@ -97,7 +109,7 @@ public class OracleCon extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 long startTime = System.nanoTime();
                 ResultSet rs = null;
-                String nume, prenume, an;
+                String nume, prenume, an, grupa;
                 int nrMatricol;
                 model.setRowCount(0);
                 try {
@@ -127,8 +139,9 @@ public class OracleCon extends JFrame {
                         nume = rs.getString(3);
                         prenume = rs.getString(4);
                         an = rs.getString(5);
+                        grupa = rs.getString(6);
                         table.removeAll();
-                        model.insertRow(table.getRowCount(), new Object[]{nrMatricol, nume, prenume, an});
+                        model.insertRow(table.getRowCount(), new Object[]{nrMatricol, nume, prenume, an, grupa});
 
                     } catch (SQLException ex) {
                         ex.printStackTrace();
@@ -144,7 +157,7 @@ public class OracleCon extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 long startTime = System.nanoTime();
                 ResultSet rs = null;
-                String nume, prenume, an;
+                String nume, prenume, an, grupa;
                 int nrMatricol;
                 model.setRowCount(0);
                 try {
@@ -174,7 +187,8 @@ public class OracleCon extends JFrame {
                         nume = rs.getString(3);
                         prenume = rs.getString(4);
                         an = rs.getString(5);
-                        model.insertRow(table.getRowCount(), new Object[]{nrMatricol, nume, prenume, an});
+                        grupa = rs.getString(6);
+                        model.insertRow(table.getRowCount(), new Object[]{nrMatricol, nume, prenume, an, grupa});
 
                     } catch (SQLException ex) {
                         ex.printStackTrace();
@@ -190,7 +204,7 @@ public class OracleCon extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 long startTime = System.nanoTime();
                 ResultSet rs = null;
-                String nume, prenume, an;
+                String nume, prenume, an, grupa;
                 int nrMatricol;
                 model.setRowCount(0);
                 try {
@@ -220,7 +234,8 @@ public class OracleCon extends JFrame {
                         nume = rs.getString(3);
                         prenume = rs.getString(4);
                         an = rs.getString(5);
-                        model.insertRow(table.getRowCount(), new Object[]{nrMatricol, nume, prenume, an});
+                        grupa = rs.getString(6);
+                        model.insertRow(table.getRowCount(), new Object[]{nrMatricol, nume, prenume, an, grupa});
 
                     } catch (SQLException ex) {
                         ex.printStackTrace();
@@ -236,7 +251,7 @@ public class OracleCon extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 long startTime = System.nanoTime();
                 ResultSet rs = null;
-                String nume, prenume, an;
+                String nume, prenume, an, grupa;
                 int nrMatricol;
                 model.setRowCount(0);
                 try {
@@ -266,7 +281,8 @@ public class OracleCon extends JFrame {
                         nume = rs.getString(3);
                         prenume = rs.getString(4);
                         an = rs.getString(5);
-                        model.insertRow(table.getRowCount(), new Object[]{nrMatricol, nume, prenume, an});
+                        grupa = rs.getString(6);
+                        model.insertRow(table.getRowCount(), new Object[]{nrMatricol, nume, prenume, an, grupa});
 
                     } catch (SQLException ex) {
                         ex.printStackTrace();
@@ -282,7 +298,7 @@ public class OracleCon extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 long startTime = System.nanoTime();
                 ResultSet rs = null;
-                String nume, prenume, an;
+                String nume, prenume, an, grupa;
                 int nrMatricol;
                 model.setRowCount(0);
                 try {
@@ -312,8 +328,8 @@ public class OracleCon extends JFrame {
                         nume = rs.getString(3);
                         prenume = rs.getString(4);
                         an = rs.getString(5);
-
-                        model.insertRow(table.getRowCount(), new Object[]{nrMatricol, nume, prenume, an});
+                        grupa = rs.getString(6);
+                        model.insertRow(table.getRowCount(), new Object[]{nrMatricol, nume, prenume, an, grupa});
 
                     } catch (SQLException ex) {
                         ex.printStackTrace();
@@ -329,7 +345,7 @@ public class OracleCon extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 long startTime = System.nanoTime();
                 ResultSet rs = null;
-                String nume, prenume, an;
+                String nume, prenume, an, grupa;
                 int nrMatricol;
                 model.setRowCount(0);
                 try {
@@ -359,7 +375,8 @@ public class OracleCon extends JFrame {
                         nume = rs.getString(3);
                         prenume = rs.getString(4);
                         an = rs.getString(5);
-                        model.insertRow(table.getRowCount(), new Object[]{nrMatricol, nume, prenume, an});
+                        grupa = rs.getString(6);
+                        model.insertRow(table.getRowCount(), new Object[]{nrMatricol, nume, prenume, an, grupa});
 
                     } catch (SQLException ex) {
                         ex.printStackTrace();
@@ -375,7 +392,7 @@ public class OracleCon extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 long startTime = System.nanoTime();
                 ResultSet rs = null;
-                String nume, prenume, an;
+                String nume, prenume, an, grupa;
                 int nrMatricol;
                 model.setRowCount(0);
                 try {
@@ -405,7 +422,8 @@ public class OracleCon extends JFrame {
                         nume = rs.getString(3);
                         prenume = rs.getString(4);
                         an = rs.getString(5);
-                        model.insertRow(table.getRowCount(), new Object[]{nrMatricol, nume, prenume, an});
+                        grupa = rs.getString(6);
+                        model.insertRow(table.getRowCount(), new Object[]{nrMatricol, nume, prenume, an, grupa});
 
                     } catch (SQLException ex) {
                         ex.printStackTrace();
@@ -421,7 +439,7 @@ public class OracleCon extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 long startTime = System.nanoTime();
                 ResultSet rs = null;
-                String nume, prenume, an;
+                String nume, prenume, an, grupa;
                 int nrMatricol;
                 model.setRowCount(0);
                 try {
@@ -454,7 +472,90 @@ public class OracleCon extends JFrame {
                         nume = rs.getString(3);
                         prenume = rs.getString(4);
                         an = rs.getString(5);
-                        model.insertRow(table.getRowCount(), new Object[]{nrMatricol, nume, prenume, an});
+                        grupa = rs.getString(6);
+                        model.insertRow(table.getRowCount(), new Object[]{nrMatricol, nume, prenume, an, grupa});
+
+                    } catch (SQLException ex) {
+                        ex.printStackTrace();
+                    }
+                }
+
+            }
+        });
+
+        buttonRecommendFriends.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                long startTime = System.nanoTime();
+                ResultSet rs = null;
+                String rezultat, nume = "", prenume = "", grupa = "";
+
+                try {
+                    int filter = -1, i = 0;
+                    String searchedText = textFieldFriends.getText();
+                    String[] formattedText = textFieldFriends.getText().split(" ");
+                    for (String s : formattedText) {
+                        if (formattedText.length == 3) {
+                            if (i == 0)
+                                nume = s;
+                            else if (i == 1)
+                                prenume = s;
+                            else if (i == 2)
+                                grupa = s;
+                            i++;
+                        } else if (formattedText.length == 4) {
+                            if (i == 0)
+                                nume = s;
+                            else if (i == 1)
+                                prenume = s;
+                            else if (i == 2)
+                                prenume = prenume + " " + s;
+                            else if (i == 3)
+                                grupa = s;
+                            i++;
+                        }
+                    }
+
+                    if (searchedText != null) {
+                        rs = stmt.executeQuery("SELECT id FROM studenti WHERE nume LIKE('" + nume + "') " +
+                                "AND prenume LIKE('" + prenume + "') AND grupa LIKE('" + grupa + "')");
+                        while (true) {
+                            try {
+                                assert rs != null;
+                                if (!rs.next()) break;
+                            } catch (SQLException ex) {
+                                ex.printStackTrace();
+                            }
+                            try {
+                                filter = rs.getInt(1);
+                            } catch (SQLException ex) {
+                                ex.printStackTrace();
+                            }
+                        }
+
+                        rs = stmt.executeQuery("SELECT recomanda_prieteni(" + filter + ") FROM dual");
+                    }
+
+                    long endTime = System.nanoTime();
+                    long elapsedTime = endTime - startTime;
+                    System.out.println("Elapsed time: " + elapsedTime);
+
+                } catch (SQLException ex) {
+                    ex.printStackTrace();
+                }
+                while (true) {
+                    try {
+                        assert rs != null;
+                        if (!rs.next()) break;
+                    } catch (SQLException ex) {
+                        ex.printStackTrace();
+                    }
+                    try {
+                        rezultat = rs.getString(1);
+                        rezultat = rezultat.replaceAll(",", "\n");
+                        System.out.println(rezultat);
+                        JOptionPane.showMessageDialog(f, rezultat + "\n");
 
                     } catch (SQLException ex) {
                         ex.printStackTrace();
